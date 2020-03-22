@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvReadService.Model
 {
-   public class SegmentVM
+    public class SegmentVM
     {
         public int Id { get; set; }
         public string TcNo { get; set; }

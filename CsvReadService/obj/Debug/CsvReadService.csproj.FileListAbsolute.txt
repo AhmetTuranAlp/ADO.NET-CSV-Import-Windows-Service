@@ -16,13 +16,3 @@ C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\obj\Debug\CsvRea
 C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\EntityFramework.dll
 C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\EntityFramework.xml
 C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\obj\Debug\CsvReadService.Installer1.resources
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe.config
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\obj\Debug\CsvReadService.exe
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\obj\Debug\CsvReadService.pdb
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.pdb
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\EntityFramework.dll
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\EntityFramework.xml
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\obj\Debug\CsvReadService.csprojResolveAssemblyReference.cache
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\obj\Debug\CsvReadService.Installer1.resources
-D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\obj\Debug\CsvReadService.csproj.GenerateResource.Cache

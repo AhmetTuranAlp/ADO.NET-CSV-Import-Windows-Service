@@ -17,7 +17,7 @@ namespace CsvReadService
             WriteToFile("Servis Çalışmaya Başladı. [Tarih: " + DateTime.Now + "]");
             bool status = FileControl(@"C:", "DreamsSegment.csv");
             if (status)
-                //FileNameChange(@"C:\DreamsSegment.csv", @"C:\ProcessDone_DreamsSegment.csv");
+                FileNameChange(@"C:\DreamsSegment.csv", @"C:\ProcessDone_DreamsSegment.csv");
 
                 WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
         }
@@ -30,13 +30,13 @@ namespace CsvReadService
                 bool status = false;
                 if (File.Exists(filepath + "\\" + fileName))
                 {
-                    // FileNameChange(filepath + "\\" + fileName, filepath + "\\" + "ProcessStarted_" + fileName);
-                    //DataTable table = TransferSqlFromCsv(filepath + "\\" + "ProcessStarted_" + fileName);
-                    DataTable table = TransferSqlFromCsv(filepath + "\\" + fileName);
+                    FileNameChange(filepath + "\\" + fileName, filepath + "\\" + "ProcessStarted_" + fileName);
+                    DataTable table = TransferSqlFromCsv(filepath + "\\" + "ProcessStarted_" + fileName);
+                    //DataTable table = TransferSqlFromCsv(filepath + "\\" + fileName);
                     status = BulkInsert(table, "SegmentTable");
                     if (status)
                     {
-                        foreach (var sg in SegmentList().ToList())
+                        foreach (var sg in SegmentList())
                         {
                             string controlStatus = RegistryControl(sg.TcNo);
                             if (controlStatus == "var")
@@ -147,7 +147,7 @@ namespace CsvReadService
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("Select COUNT(" + tcNo + ") From SegmentTempData", connection))
+                    using (SqlCommand cmd = new SqlCommand("Select COUNT(*) From SegmentTempData Where TcNo = " + tcNo, connection))
                     {
                         connection.Open();
                         int _parameter = Convert.ToInt32(cmd.ExecuteScalar());
@@ -178,7 +178,7 @@ namespace CsvReadService
                     {
                         connection.Open();
                         int _parameter = cmd.ExecuteNonQuery();
-                        connection.Close();                
+                        connection.Close();
                     }
                 }
 

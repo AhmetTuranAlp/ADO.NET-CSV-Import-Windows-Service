@@ -147,16 +147,84 @@ Affected parameters are:
    logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
    assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
 Restoring event log to previous state for source Service1.
-'D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe' derlemesi yükleniyor.
-Etkilenen parametreler şunlardır:
+Uninstalling assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
    logtoconsole = 
-   logfile = D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.InstallLog
-   assemblypath = D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe
-CSV READ hizmeti yükleniyor...
-CSV READ hizmeti başarıyla yüklendi.
-Application günlüğünde CSV READ EventLog kaynağı oluşturuluyor...
-'D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe' derlemesi tamamlanıyor.
-Etkilenen parametreler şunlardır:
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Removing EventLog source CSV READ.
+Warning: The source CSV READ is not registered on the local machine.
+Service CSV READ is being removed from the system...
+An exception occurred during the uninstallation of the System.ServiceProcess.ServiceInstaller installer.
+System.ComponentModel.Win32Exception: The specified service does not exist as an installed service
+An exception occurred while uninstalling. This exception will be ignored and the uninstall will continue. However, the application might not be fully uninstalled after the uninstall is complete.
+Uninstalling assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
    logtoconsole = 
-   logfile = D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.InstallLog
-   assemblypath = D:\Yazılım\GitHup-Projeler\CsvReadService\CsvReadService\bin\Debug\CsvReadService.exe
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Removing EventLog source CSV READ.
+Warning: The source CSV READ is not registered on the local machine.
+Service CSV READ is being removed from the system...
+Service CSV READ was successfully removed from the system.
+Installing assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Installing service CSV READ...
+Creating EventLog source CSV READ in log Application...
+Rolling back assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Restoring event log to previous state for source CSV READ.
+Uninstalling assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Removing EventLog source CSV READ.
+Warning: The source CSV READ is not registered on the local machine.
+Service CSV READ is being removed from the system...
+Service CSV READ was successfully removed from the system.
+Installing assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Installing service CSV READ...
+Creating EventLog source CSV READ in log Application...
+Rolling back assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Restoring event log to previous state for source CSV READ.
+Installing assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Installing service CSV READ...
+Creating EventLog source CSV READ in log Application...
+Rolling back assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Restoring event log to previous state for source CSV READ.
+Installing assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
+Installing service CSV READ...
+Service CSV READ has been successfully installed.
+Creating EventLog source CSV READ in log Application...
+Committing assembly 'C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe'.
+Affected parameters are:
+   logtoconsole = 
+   logfile = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.InstallLog
+   assemblypath = C:\Users\ahmet.alp\Desktop\CsvReadService-master\CsvReadService\bin\Debug\CsvReadService.exe
