@@ -19,7 +19,7 @@ namespace CsvReadService
             if (status)
                 FileNameChange(@"C:\DreamsSegment.csv", @"C:\ProcessDone_DreamsSegment.csv");
 
-                WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
+            WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
         }
 
         #region FileControl => Dosya kontrol işlemi yapılmaktadır.
@@ -36,19 +36,24 @@ namespace CsvReadService
                     status = BulkInsert(table, "SegmentTable");
                     if (status)
                     {
-                        foreach (var sg in SegmentList())
+                        List<SegmentVM> listSeg = SegmentList();
+                        if (listSeg.Count > 0)
                         {
-                            string controlStatus = RegistryControl(sg.TcNo);
-                            if (controlStatus == "var")
+                            foreach (var sg in listSeg)
                             {
-                                DataUpdate(sg);
+                                string controlStatus = RegistryControl(sg.TcNo);
+                                if (controlStatus == "var")
+                                {
+                                    DataUpdate(sg);
+                                }
+                                else if (controlStatus == "yok")
+                                {
+                                    DataInsert(sg);
+                                }
                             }
-                            else if (controlStatus == "yok")
-                            {
-                                DataInsert(sg);
-                            }
+                            TempDeleteTableAllRows();
                         }
-                        TempDeleteTableAllRows();
+            
                     }
                 }
                 return status;

@@ -27,7 +27,7 @@ namespace CsvReadService
         {
 
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
-            timer.Interval = 300000;
+            timer.Interval = 1000 * 60 * 60;
             timer.Enabled = true;
         }
 
