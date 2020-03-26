@@ -15,10 +15,15 @@ namespace CsvReadService
         public InnerOperation()
         {
             WriteToFile("Servis Çalışmaya Başladı. [Tarih: " + DateTime.Now + "]");
-            bool status = FileControl(@"C:", "DreamsSegment.csv");
+            string filepath = "C:\\";
+            string fileName = "DreamsSegment.csv";
+            bool status = FileControl(filepath, fileName);
             if (status)
-                FileNameChange(@"C:\DreamsSegment.csv", @"C:\ProcessDone_DreamsSegment.csv");
-
+            {
+                string Path = filepath + "\\" + fileName;
+                string newPath = filepath + "\\" + String.Format("{0:d/M/yy}", DateTime.Now) + "_ProcessDone_" + fileName;
+                FileNameChange(Path, newPath);
+            }
             WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
         }
 
@@ -30,10 +35,8 @@ namespace CsvReadService
                 bool status = false;
                 if (File.Exists(filepath + "\\" + fileName))
                 {
-                    FileNameChange(filepath + "\\" + fileName, filepath + "\\" + "ProcessStarted_" + fileName);
-                    DataTable table = TransferSqlFromCsv(filepath + "\\" + "ProcessStarted_" + fileName);
-                    //DataTable table = TransferSqlFromCsv(filepath + "\\" + fileName);
-                    status = BulkInsert(table, "SegmentTable");
+                    DataTable table = TransferSqlFromCsv(filepath + "\\" + fileName);
+                    status = BulkInsert(table, "SegmentBulkTable");
                     if (status)
                     {
                         List<SegmentVM> listSeg = SegmentList();
@@ -50,10 +53,14 @@ namespace CsvReadService
                                 {
                                     DataInsert(sg);
                                 }
+                                else if (controlStatus == "hata")
+                                {
+                                    WriteToFile("FileControl (Hata. TCNO: " + sg.TcNo + ") [Tarih: " + DateTime.Now + "]");
+                                }
                             }
                             TempDeleteTableAllRows();
                         }
-            
+
                     }
                 }
                 return status;
@@ -72,7 +79,7 @@ namespace CsvReadService
             try
             {
                 FileInfo info = new FileInfo(oldFilePath);
-                info.MoveTo(newFilePath);
+                info.MoveTo(String.Format(newFilePath));
             }
             catch (Exception ex)
             {
@@ -152,13 +159,16 @@ namespace CsvReadService
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("Select COUNT(*) From SegmentTempData Where TcNo = " + tcNo, connection))
+                    using (SqlCommand cmd = new SqlCommand("Select COUNT(*) From SegmentTempData Where TcNo = '" + tcNo + "'", connection))
                     {
+                        int _parameter = -1;
                         connection.Open();
-                        int _parameter = Convert.ToInt32(cmd.ExecuteScalar());
+                        _parameter = Convert.ToInt32(cmd.ExecuteScalar());
                         connection.Close();
                         if (_parameter == 0)
                             return "yok";
+                        else if (_parameter == -1)
+                            return "hata";
                         else
                             return "var";
                     }
@@ -298,7 +308,7 @@ namespace CsvReadService
         #endregion
 
         #region ConnectionString
-        public static string ConnectionString = "Data Source=jedi\\jedi2008; Initial Catalog=MoovSegmentTestDB; Integrated Security=false;user id=sa; password=DNB@Jedi2008;";
+        public static string ConnectionString = "Data Source=172.23.213.201; Initial Catalog=MoovCRM; Integrated Security=false;user id=ikinciyeniuser; password=X3scjS8VCf;";
         #endregion
 
     }
