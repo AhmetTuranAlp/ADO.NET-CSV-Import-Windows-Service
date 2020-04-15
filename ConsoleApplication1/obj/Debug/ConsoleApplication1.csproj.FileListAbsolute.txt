@@ -1,8 +1,0 @@
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\bin\Debug\CsvReadService.exe
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\bin\Debug\CsvReadService.pdb
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

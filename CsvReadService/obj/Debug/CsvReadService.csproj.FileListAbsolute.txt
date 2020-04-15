@@ -21,8 +21,6 @@ D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\o
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\obj\Debug\CsvReadService.pdb
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\bin\Debug\CsvReadService.exe
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\bin\Debug\CsvReadService.pdb
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\bin\Debug\EntityFramework.dll
-D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\bin\Debug\EntityFramework.xml
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\obj\Debug\CsvReadService.csprojResolveAssemblyReference.cache
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\obj\Debug\CsvReadService.Installer1.resources
 D:\Yazılım\GitHup-Projeler\ADO.NET-CSV-Import-Windows-Service\CsvReadService\obj\Debug\CsvReadService.csproj.GenerateResource.Cache

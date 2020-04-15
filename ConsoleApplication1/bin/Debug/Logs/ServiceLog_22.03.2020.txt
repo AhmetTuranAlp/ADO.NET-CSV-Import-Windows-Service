@@ -1,8 +1,0 @@
-Servis Çalışmaya Başladı. [Tarih: 22.03.2020 21:28:28]
-FileNameChange (Yola erişim engellendi.) [Tarih: 22.03.2020 21:28:28]
-TransferSqlFromCsv ('C:\ProcessStarted_DreamsSegment.csv' dosyası bulunamadı.) [Tarih: 22.03.2020 21:28:28]
-Servis Çalışmaya Başladı. [Tarih: 22.03.2020 21:28:46]
-FileNameChange (Yola erişim engellendi.) [Tarih: 22.03.2020 21:28:50]
-TransferSqlFromCsv ('C:\ProcessStarted_DreamsSegment.csv' dosyası bulunamadı.) [Tarih: 22.03.2020 21:29:01]
-SegmentList (Yürütme Zaman Aşımı Süresi Doldu. Zaman aşımı süresi işlem tamamlanmadan önce doldu veya sunucu yanıt vermiyor.) [Tarih: 22.03.2020 21:30:54]
-SegmentList (Yürütme Zaman Aşımı Süresi Doldu. Zaman aşımı süresi işlem tamamlanmadan önce doldu veya sunucu yanıt vermiyor.) [Tarih: 22.03.2020 21:33:08]

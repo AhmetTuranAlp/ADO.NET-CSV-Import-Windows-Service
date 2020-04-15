@@ -25,9 +25,8 @@ namespace CsvReadService
 
         protected override void OnStart(string[] args)
         {
-
             timer.Elapsed += new ElapsedEventHandler(OnElapsedTime);
-            timer.Interval = 1000 * 60 * 60;
+            timer.Interval = 1000 * 60 * 2;
             timer.Enabled = true;
         }
 

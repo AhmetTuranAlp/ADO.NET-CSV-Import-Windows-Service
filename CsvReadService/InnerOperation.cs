@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,76 +15,109 @@ namespace CsvReadService
     {
         public InnerOperation()
         {
-            WriteToFile("Servis Çalışmaya Başladı. [Tarih: " + DateTime.Now + "]");
-            string filepath = "C:\\";
-            string fileName = "DreamsSegment.csv";
-            bool status = FileControl(filepath, fileName);
-            if (status)
-            {
-                string Path = filepath + "\\" + fileName;
-                string newPath = filepath + "\\" + String.Format("{0:d/M/yy}", DateTime.Now) + "_ProcessDone_" + fileName;
-                FileNameChange(Path, newPath);
-            }
-            WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
+            ServiceStart();
         }
 
-        #region FileControl => Dosya kontrol işlemi yapılmaktadır.
-        public bool FileControl(string filepath, string fileName)
+        #region ServiceStart
+        public void ServiceStart()
+        {
+            WriteToFile("Servis Çalışmaya Başladı. [Tarih: " + DateTime.Now + "]");
+
+            #region Ftp Server Variables
+            string FtpFilePath = ""; // Ftp Server Yolu
+            string FtpUsername = ""; // Ftp Username
+            string FtpPassword = ""; // Ftp Password
+            #endregion
+
+            string FileDatetime = FtpFileControl(FtpFilePath, FtpUsername, FtpPassword);
+            if (FileDatetime != "")
+            {
+                #region Ftp sunucuda dosya varsa
+                string SaveFilePath = @"C:\SegmentCsv\" + FileDatetime + "_DreamsSegment.csv";
+                if (!File.Exists(SaveFilePath))
+                {
+                    //Dosya indirildikten sonra dosya yolu dönmektedir.
+                    SaveFilePath = FtpFileDownload(SaveFilePath, FtpFilePath, FtpUsername, FtpPassword);
+                    if (SaveFilePath != "")
+                    {
+                        if (File.Exists(SaveFilePath))
+                        {
+                            //Csv dosyasını okuyup DataTable nesnesine atmaktadır.
+                            DataTable table = TransferSqlFromCsv(SaveFilePath);
+                            if (table.Rows.Count > 0)
+                            {
+                                //Gecici tabloya segmetler kaydedilmektedir.
+                                if (BulkInsert(table, "SegmentBulkTable"))
+                                {
+                                    DataUpdate();
+                                    DataInsert();
+                                    TempDeleteTableAllRows();
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    WriteToFile("Bu dosya zaten indirilmiştir. (" + SaveFilePath + ")");             
+                }
+                #endregion
+            }
+            else
+            {
+                WriteToFile("Ftp Sunucuda ilgili dosya bulunmamaktadır.");
+            }
+            WriteToFile("Servis Çalışması Bitti. [Tarih: " + DateTime.Now + "]");
+            WriteToFile("-----------------------------------------------------------------------");
+        }
+        #endregion
+
+        #region FtpFileControl => Ftp sunucu içerisinde dosya kontrol işlemi yapılmaktadır.
+        public string FtpFileControl(string FtpFilePath, string FtpUsername, string FtpPassword)
         {
             try
             {
-                bool status = false;
-                if (File.Exists(filepath + "\\" + fileName))
-                {
-                    DataTable table = TransferSqlFromCsv(filepath + "\\" + fileName);
-                    status = BulkInsert(table, "SegmentBulkTable");
-                    if (status)
-                    {
-                        List<SegmentVM> listSeg = SegmentList();
-                        if (listSeg.Count > 0)
-                        {
-                            foreach (var sg in listSeg)
-                            {
-                                string controlStatus = RegistryControl(sg.TcNo);
-                                if (controlStatus == "var")
-                                {
-                                    DataUpdate(sg);
-                                }
-                                else if (controlStatus == "yok")
-                                {
-                                    DataInsert(sg);
-                                }
-                                else if (controlStatus == "hata")
-                                {
-                                    WriteToFile("FileControl (Hata. TCNO: " + sg.TcNo + ") [Tarih: " + DateTime.Now + "]");
-                                }
-                            }
-                            TempDeleteTableAllRows();
-                        }
-
-                    }
-                }
-                return status;
+                FtpWebRequest request1 = (FtpWebRequest)WebRequest.Create(FtpFilePath);
+                request1.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+                request1.Credentials = new NetworkCredential(FtpUsername, FtpPassword);
+                FtpWebResponse response = (FtpWebResponse)request1.GetResponse();
+                string Year = response.LastModified.Year.ToString();
+                string Month = response.LastModified.Month.ToString();
+                if (Month.Length == 1)
+                    Month = "0" + Month;
+                string Day = response.LastModified.Day.ToString();
+                if (Day.Length == 1)
+                    Day = "0" + Day;
+                string Hour = response.LastModified.Hour.ToString();
+                string Minute = response.LastModified.Minute.ToString();
+                string Second = response.LastModified.Second.ToString();
+                return Day + "-" + Month + "-" + Year + " " + Hour + "-" + Minute + "-" + Second;
             }
             catch (Exception ex)
             {
-                WriteToFile("FileControl (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
-                return false;
+                WriteToFile("FtpFileControl (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
+                return "";
             }
         }
         #endregion
 
-        #region FileNameChange => Dosya adını değiştirmektedir.
-        public void FileNameChange(string oldFilePath, string newFilePath)
+        #region FtpFileDownload => Ftp üzerinden dosya indirme
+        public string FtpFileDownload(string SaveFilePath, string FtpFilePath, string FtpUsername, string FtpPassword)
         {
             try
             {
-                FileInfo info = new FileInfo(oldFilePath);
-                info.MoveTo(String.Format(newFilePath));
+                WebClient request = new WebClient();
+                request.Credentials = new NetworkCredential(FtpUsername, FtpPassword);
+                byte[] veriDosya = request.DownloadData(FtpFilePath);
+                FileStream file = File.Create(SaveFilePath);
+                file.Write(veriDosya, 0, veriDosya.Length);
+                file.Close();
+                return SaveFilePath;
             }
             catch (Exception ex)
             {
-                WriteToFile("FileNameChange (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
+                WriteToFile("FtpFileDownload (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
+                return "";
             }
         }
         #endregion
@@ -122,115 +156,6 @@ namespace CsvReadService
         }
         #endregion
 
-        #region SegmentList => Geçici dosyada bulunan kayıtları liste olarak alınmaktadır.
-        public List<SegmentVM> SegmentList()
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("SegmentTableList", connection))
-                    {
-                        List<SegmentVM> list = new List<Model.SegmentVM>();
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        connection.Open();
-                        SqlDataReader dr = cmd.ExecuteReader();
-                        while (dr.Read())
-                        {
-                            list.Add(new SegmentVM { TcNo = dr["TC_KIMLIK_NO"].ToString(), Oncelik = Convert.ToInt32(dr["Oncelik"]), SegmentName = dr["SEGMENT"].ToString() });
-                        }
-                        connection.Close();
-                        return list;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteToFile("SegmentList (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
-                return new List<SegmentVM>();
-            }
-        }
-        #endregion
-
-        #region RegistryControl => Kayıt varmı, yokmu diye kontrol etmektedir. 
-        public string RegistryControl(string tcNo)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("Select COUNT(*) From SegmentTempData Where TcNo = '" + tcNo + "'", connection))
-                    {
-                        int _parameter = -1;
-                        connection.Open();
-                        _parameter = Convert.ToInt32(cmd.ExecuteScalar());
-                        connection.Close();
-                        if (_parameter == 0)
-                            return "yok";
-                        else if (_parameter == -1)
-                            return "hata";
-                        else
-                            return "var";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteToFile("RegistryControl [ TcNo: " + tcNo + " ](" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
-                return "hata";
-            }
-        }
-        #endregion
-
-        #region DataInsert = Yeni kayıt eklenmektedir.
-        public void DataInsert(SegmentVM data)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("Insert into SegmentTempData (SegmentName,TcNo,Priority,CreateDate) values ('" + data.SegmentName + "','" + data.TcNo + "','" + data.Oncelik + "','" + DateTime.Now + "')", connection))
-                    {
-                        connection.Open();
-                        int _parameter = cmd.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                WriteToFile("DataInsert [ TcNo: " + data.TcNo + " ](" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
-            }
-        }
-        #endregion
-
-        #region DataUpdate = Kayıt güncellemesi yapılmaktadır.
-        public void DataUpdate(SegmentVM data)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand("Update SegmentTempData Set Priority = @priority, SegmentName = @segmentName, CreateDate = @createDate", connection))
-                    {
-                        cmd.Parameters.AddWithValue("@priority", data.Oncelik);
-                        cmd.Parameters.AddWithValue("@segmentName", data.SegmentName);
-                        cmd.Parameters.AddWithValue("@createDate", DateTime.Now);
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                WriteToFile("DataInsert [ TcNo: " + data.TcNo + " ](" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
-            }
-        }
-        #endregion
-
         #region TempDeleteTableAllRows => Gecici tabloda bulunan tüm kayıtlar silinmektedir.
         public void TempDeleteTableAllRows()
         {
@@ -265,6 +190,7 @@ namespace CsvReadService
                     connection.Open();
                     using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
                     {
+                        bulkCopy.BulkCopyTimeout = 600;
                         bulkCopy.DestinationTableName = TabloNametoSave;
                         bulkCopy.WriteToServer(dt);
                         return true;
@@ -307,9 +233,64 @@ namespace CsvReadService
         }
         #endregion
 
-        #region ConnectionString
-        public static string ConnectionString = "Data Source=172.23.213.201; Initial Catalog=MoovCRM; Integrated Security=false;user id=ikinciyeniuser; password=X3scjS8VCf;";
+        #region ConnectionString      
+        public static string ConnectionString = "Data Source=servername; Initial Catalog=databasename; Integrated Security=false;user id=username; password=password;";
         #endregion
+
+        #region DataInsert => Yeni kayıt eklenmektedir.
+        public void DataInsert()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("SegmentInsert", connection))
+                    {
+                        connection.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                WriteToFile("DataInsert (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
+            }
+        }
+        #endregion
+        
+        #region DataUpdate => Kayıt güncellemesi yapılmaktadır.
+        public void DataUpdate()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+
+                    using (SqlCommand cmd = new SqlCommand("SegmentUpdate", connection))
+                    {
+                        connection.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                WriteToFile("DataUpdate (" + ex.Message + ") [Tarih: " + DateTime.Now + "]");
+            }
+        }
+        #endregion
+
+
+        
 
     }
 }
